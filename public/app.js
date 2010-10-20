@@ -39,7 +39,7 @@ $(function() {
     info("Select a door!");
     $('#doors li')
       .addClass('enabled')
-      .removeClass('selected removed tapir')
+      .removeClass('selected removed tapir tapir-selected')
       .hover(
         function() {$(this).addClass('hover')},
         function() {$(this).removeClass('hover')})
@@ -85,9 +85,7 @@ $(function() {
       dataType: 'json',
       url: '/quiz/' + currentToken + '/' + value + '/' + door,
       success: function(data) {
-        $('#door-' + data.answer)
-          .removeClass('selected enabled removed')
-          .addClass('tapir');
+        updateImage(data);
         infoResult(data);
         updateStats(data);
         resetButtons();
@@ -95,6 +93,15 @@ $(function() {
     });
   }
 
+  function updateImage(data) {
+    var imageClass = 'tapir';
+    if (data.stick_or_switch == 'stick' && data.correct
+      || data.stick_or_switch == 'switch' && !data.correct)
+      imageClass = 'tapir-selected';
+    $('#door-' + data.answer)
+      .removeClass('selected enabled removed')
+      .addClass(imageClass);
+  }
   function infoResult(data) {
     var right_or_wrong = data.correct ? ' right!' : ' wrong!';
     var message =

@@ -67,6 +67,10 @@ li.tapir {
   background-image: url(images/door-tapir.png);
 }
 
+li.tapir-selected {
+  background-image: url(images/door-tapir-selected.png);
+}
+
 li.hover {
   position: relative;
   top: 2px;
