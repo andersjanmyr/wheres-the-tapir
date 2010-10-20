@@ -12,7 +12,8 @@ $(function() {
   }
 
 
-  $('#start').click(function() {
+  $('#start').click(function(e) {
+    e.preventDefault();
     info("New quiz started");
     $('#start').attr('disabled', 'disabled');
     postQuiz();
@@ -42,7 +43,8 @@ $(function() {
       .hover(
         function() {$(this).addClass('hover')},
         function() {$(this).removeClass('hover')})
-      .click(function() {
+      .click(function(e) {
+        e.preventDefault();
         var door = $(this)
           .removeClass('enabled')
           .addClass('selected')
@@ -110,7 +112,9 @@ $(function() {
 
   function updateStat(kind, data) {
     var arr = data[kind];
-    var percentage = parseInt(arr[0] / arr[1] * 100);
+    var percentage = 0;
+    if (arr[1] > 0)
+      percentage = parseInt(arr[0] / arr[1] * 100);
     $('#' + kind + '-count').text(arr[0] + '/' + arr[1] + ' = ' + percentage + '%');
   }
 
