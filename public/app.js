@@ -43,16 +43,18 @@ $(function() {
       .hover(
         function() {$(this).addClass('hover')},
         function() {$(this).removeClass('hover')})
-      .click(function(e) {
-        e.preventDefault();
-        var door = $(this)
-          .removeClass('enabled')
-          .addClass('selected')
-          .attr('data-id');
-        $('#doors li')
-          .unbind('click mouseenter mouseleave')
-        putSelected(door);
-      });
+      .click(doorSelected);
+  }
+
+  function doorSelected(e) {
+    e.preventDefault();
+    var door = $(this)
+      .removeClass('enabled')
+      .addClass('selected')
+      .attr('data-id');
+    $('#doors li')
+      .unbind('click mouseenter mouseleave')
+    putSelected(door);
   }
 
   function putSelected(door) {
