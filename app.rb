@@ -40,7 +40,7 @@ $stick_count = 0
 $stick_correct_count = 0
 $switch_count = 0
 $switch_correct_count = 0
-put "/quiz/:quiz/:stick_or_switch/:door" do |quiz, stick_or_switch, door|
+post "/stats/:quiz/:stick_or_switch/:door" do |quiz, stick_or_switch, door|
   answer = $quizzes[quiz.to_i]
   correct = answer == door.to_i
   if stick_or_switch == 'stick'
@@ -50,11 +50,22 @@ put "/quiz/:quiz/:stick_or_switch/:door" do |quiz, stick_or_switch, door|
     $switch_count += 1
     $switch_correct_count += 1 if correct
   end
-  {
-    :answer => answer,
-    :correct => correct,
-    :stick_or_switch => stick_or_switch,
-    :stick => [$stick_correct_count, $stick_count],
-    :switch => [$switch_correct_count, $switch_count]
-  }.to_json
+  stats = stats()
+  stats[:answer] = answer
+  stats[:correct] = correct
+  stats[:stick_or_switch] = stick_or_switch
+  stats.to_json
+end
+
+get '/stats' do
+  stats.to_json
+end
+
+helpers do
+  def stats()
+    {
+      :stick => [$stick_correct_count, $stick_count],
+      :switch => [$switch_correct_count, $switch_count]
+    }
+  end
 end

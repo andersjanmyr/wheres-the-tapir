@@ -11,6 +11,9 @@ $(function() {
     $('#info-text').text(text);
   }
 
+  $.getJSON('/stats', function(data) {
+    updateStats(data);
+  });
 
   $('#start').click(function(e) {
     e.preventDefault();
@@ -75,17 +78,17 @@ $(function() {
   $('#stick-switch button').click(function(e) {
     e.preventDefault();
     var value = $(this).attr('data-id');
-    putStickOrSwitch(value);
+    postStickOrSwitch(value);
   });
 
-  function putStickOrSwitch(value) {
+  function postStickOrSwitch(value) {
     var door = (value == 'stick')
       ? $('#doors li.selected').attr('data-id')
       : $('#doors li.enabled').attr('data-id');
     $.ajax({
-      type: 'PUT',
+      type: 'POST',
       dataType: 'json',
-      url: '/quiz/' + currentToken + '/' + value + '/' + door,
+      url: '/stats/' + currentToken + '/' + value + '/' + door,
       success: function(data) {
         updateImage(data);
         infoResult(data);
