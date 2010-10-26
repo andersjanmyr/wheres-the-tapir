@@ -62,6 +62,7 @@ li.removed div {
   font-size: 32px;
   display: block;
   -webkit-transform: rotate(70deg) translate(-40px, 10px);
+  -moz-transform: rotate(70deg) translate(-40px, 10px);
   -webkit-border-radius: .5em;
   -moz-border-radius: .5em;
   border-radius: .5em;
