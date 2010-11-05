@@ -68,8 +68,7 @@ $(function() {
         info("Stick or Switch!");
         $('#door-' + data)
           .removeClass('enabled')
-          .addClass('removed')
-          .find('div').text('Removed');
+          .addClass('removed');
         $('#stick-switch button').removeAttr('disabled');
       }
     });
@@ -112,7 +111,7 @@ $(function() {
     var message =
       (data.stick_or_switch == 'stick'
         ? 'You stick, and you are'
-        : 'You switcharoo, you are')
+        : 'You switch and you are')
       + right_or_wrong;
     info(message);
   }

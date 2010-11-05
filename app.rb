@@ -36,25 +36,15 @@ put "/quiz/:quiz/select/:door" do |quiz, door|
   doors[rand(doors.length + 1) - 1].to_s
 end
 
-$stick_count = 0
-$stick_correct_count = 0
-$switch_count = 0
-$switch_correct_count = 0
-post "/stats/:quiz/:stick_or_switch/:door" do |quiz, stick_or_switch, door|
+post "/stats/*/*/*" do |quiz, stick_or_switch, door|
   answer = $quizzes[quiz.to_i]
   correct = answer == door.to_i
-  if stick_or_switch == 'stick'
-    $stick_count += 1
-    $stick_correct_count += 1 if correct
-  else
-    $switch_count += 1
-    $switch_correct_count += 1 if correct
-  end
-  stats = stats()
-  stats[:answer] = answer
-  stats[:correct] = correct
-  stats[:stick_or_switch] = stick_or_switch
-  stats.to_json
+  update_stats(s_or_s)
+  reply = stats()
+  reply[:answer] = answer
+  reply[:correct] = correct
+  reply[:stick_or_switch] = stick_or_switch
+  reply.to_json
 end
 
 get '/stats' do
@@ -62,6 +52,21 @@ get '/stats' do
 end
 
 helpers do
+  $stick_count = 0
+  $stick_correct_count = 0
+  $switch_count = 0
+  $switch_correct_count = 0
+
+  def update_stats s_or_s
+    if s_or_s == 'stick'
+      $stick_count += 1
+      $stick_correct_count += 1 if correct
+    else
+      $switch_count += 1
+      $switch_correct_count += 1 if correct
+    end
+  end
+
   def stats()
     {
       :stick => [$stick_correct_count, $stick_count],
