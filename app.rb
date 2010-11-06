@@ -31,34 +31,10 @@ post "/quiz/*/*" do |quiz, stick_or_switch|
   quiz = Quiz.quizzes[quiz.to_i]
   quiz.choose(stick_or_switch)
   status = quiz.status
-  update_stats(status)
+  Stats.get(status)
   status.to_json
 end
 
 get '/stats' do
-  stats.to_json
-end
-
-helpers do
-  $stick_count = 0
-  $stick_correct_count = 0
-  $switch_count = 0
-  $switch_correct_count = 0
-
-  def update_stats status
-    if status[:choice] == 'stick'
-      $stick_count += 1
-      $stick_correct_count += 1 if status[:is_correct]
-    else
-      $switch_count += 1
-      $switch_correct_count += 1 if status[:is_correct]
-    end
-    stats(status)
-  end
-
-  def stats(hash={})
-    hash[:stick] = [$stick_correct_count, $stick_count]
-    hash[:switch] = [$switch_correct_count, $switch_count]
-    hash
-  end
+  Stats.get.to_json
 end

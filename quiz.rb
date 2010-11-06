@@ -22,6 +22,7 @@ class Quiz
 
   def choose choice
     @choice = choice
+    Stats.update(@choice, correct?)
   end
 
   def correct?
@@ -47,6 +48,29 @@ class Quiz
 
   def self.to_s
     quizzes.to_s
+  end
+end
+
+class Stats
+  @stick_count = 0
+  @stick_correct_count = 0
+  @switch_count = 0
+  @switch_correct_count = 0
+
+  def self.update(choice, correct)
+    if choice  == 'stick'
+      @stick_count += 1
+      @stick_correct_count += 1 if correct
+    else
+      @switch_count += 1
+      @switch_correct_count += 1 if correct
+    end
+  end
+
+  def self.get(hash={})
+    hash[:stick] = [@stick_correct_count, @stick_count]
+    hash[:switch] = [@switch_correct_count, @switch_count]
+    hash
   end
 
 end
