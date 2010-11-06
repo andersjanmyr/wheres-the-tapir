@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'json'
+require './quiz'
 
 set :public, "./public"
 
@@ -16,35 +17,22 @@ get "/" do
   redirect 'index.html'
 end
 
-$quiz_counter = 0
-$quizzes = {};
-
 post "/quiz" do
-  $quiz_counter += 1
-  $quizzes[$quiz_counter] = rand(3) + 1
-  p $quizzes
-  $quiz_counter.to_s
+  Quiz.new.quiz_id.to_s
 end
 
 
 put "/quiz/:quiz/select/:door" do |quiz, door|
-  answer = $quizzes[quiz.to_i]
-  doors = [1,2,3]
-  doors.delete(door.to_i)
-  doors.delete(answer)
-  p doors
-  doors[rand(doors.length + 1) - 1].to_s
+  quiz = Quiz.quizzes[quiz.to_i]
+  quiz.remove_door(door).to_s
 end
 
-post "/stats/*/*/*" do |quiz, stick_or_switch, door|
-  answer = $quizzes[quiz.to_i]
-  correct = answer == door.to_i
-  update_stats(s_or_s)
-  reply = stats()
-  reply[:answer] = answer
-  reply[:correct] = correct
-  reply[:stick_or_switch] = stick_or_switch
-  reply.to_json
+post "/quiz/*/*" do |quiz, stick_or_switch|
+  quiz = Quiz.quizzes[quiz.to_i]
+  quiz.choose(stick_or_switch)
+  status = quiz.status
+  update_stats(status)
+  status.to_json
 end
 
 get '/stats' do
@@ -57,20 +45,20 @@ helpers do
   $switch_count = 0
   $switch_correct_count = 0
 
-  def update_stats s_or_s
-    if s_or_s == 'stick'
+  def update_stats status
+    if status[:choice] == 'stick'
       $stick_count += 1
-      $stick_correct_count += 1 if correct
+      $stick_correct_count += 1 if status[:correct]
     else
       $switch_count += 1
-      $switch_correct_count += 1 if correct
+      $switch_correct_count += 1 if status[:correct]
     end
+    stats(status)
   end
 
-  def stats()
-    {
-      :stick => [$stick_correct_count, $stick_count],
-      :switch => [$switch_correct_count, $switch_count]
-    }
+  def stats(hash={})
+    hash[:stick] = [$stick_correct_count, $stick_count]
+    hash[:switch] = [$switch_correct_count, $switch_count]
+    hash
   end
 end

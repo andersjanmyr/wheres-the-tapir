@@ -81,13 +81,10 @@ $(function() {
   });
 
   function postStickOrSwitch(value) {
-    var door = (value == 'stick')
-      ? $('#doors li.selected').attr('data-id')
-      : $('#doors li.enabled').attr('data-id');
     $.ajax({
       type: 'POST',
       dataType: 'json',
-      url: '/stats/' + currentToken + '/' + value + '/' + door,
+      url: '/quiz/' + currentToken + '/' + value ,
       success: function(data) {
         updateImage(data);
         infoResult(data);
@@ -99,17 +96,16 @@ $(function() {
 
   function updateImage(data) {
     var imageClass = 'tapir';
-    if (data.stick_or_switch == 'stick' && data.correct
-      || data.stick_or_switch == 'switch' && !data.correct)
+    if ((data.choice == 'stick') == data.is_correct)
       imageClass = 'tapir-selected';
-    $('#door-' + data.answer)
+    $('#door-' + data.correct_door)
       .removeClass('selected enabled removed')
       .addClass(imageClass);
   }
   function infoResult(data) {
-    var right_or_wrong = data.correct ? ' right!' : ' wrong!';
+    var right_or_wrong = data.is_correct ? ' right!' : ' wrong!';
     var message =
-      (data.stick_or_switch == 'stick'
+      (data.choice == 'stick'
         ? 'You stick, and you are'
         : 'You switch and you are')
       + right_or_wrong;
