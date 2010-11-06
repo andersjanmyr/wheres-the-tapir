@@ -48,10 +48,10 @@ helpers do
   def update_stats status
     if status[:choice] == 'stick'
       $stick_count += 1
-      $stick_correct_count += 1 if status[:correct]
+      $stick_correct_count += 1 if status[:is_correct]
     else
       $switch_count += 1
-      $switch_correct_count += 1 if status[:correct]
+      $switch_correct_count += 1 if status[:is_correct]
     end
     stats(status)
   end

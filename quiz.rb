@@ -1,6 +1,7 @@
 class Quiz
   @quiz_id = 0 # This is a class instance variable
   @quizzes = {}
+  attr_reader :quiz_id
 
 
   def initialize
