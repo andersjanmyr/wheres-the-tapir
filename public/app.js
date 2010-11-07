@@ -113,16 +113,19 @@ $(function() {
   }
 
   function updateStats(data) {
-    updateStat('stick', data);
-    updateStat('switch', data);
+    updateStat(data, 'stick');
+    updateStat(data, 'switch');
   }
 
-  function updateStat(kind, data) {
+  function updateStat(data, kind) {
     var arr = data[kind];
+    var correct = arr[0], guesses = arr[1];
     var percentage = 0;
-    if (arr[1] > 0)
-      percentage = parseInt(arr[0] / arr[1] * 100);
-    $('#' + kind + '-count').text(arr[0] + '/' + arr[1] + ' = ' + percentage + '%');
+    if (guesses > 0) {
+      percentage = parseInt(correct / guesses * 100);
+    }
+    var text = correct + '/' + guesses  + ' = ' + percentage + '%'
+    $('#' + kind + '-count').text(text);
   }
 
   function resetButtons() {
