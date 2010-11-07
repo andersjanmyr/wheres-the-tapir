@@ -54,7 +54,7 @@ $(function() {
     var door = $(this)
       .removeClass('enabled')
       .addClass('selected')
-      .attr('data-id');
+      .data('id');
     $('#doors li')
       .unbind('click mouseenter mouseleave')
     putSelected(door);
@@ -76,13 +76,13 @@ $(function() {
 
   $('#stick-switch button').click(function(e) {
     e.preventDefault();
-    var value = $(this).attr('data-id');
-    postStickOrSwitch(value);
+    var value = $(this).data('id');
+    putChoice(value);
   });
 
-  function postStickOrSwitch(value) {
+  function putChoice(value) {
     $.ajax({
-      type: 'POST',
+      type: 'PUT',
       dataType: 'json',
       url: '/quiz/' + currentToken + '/' + value ,
       success: function(data) {

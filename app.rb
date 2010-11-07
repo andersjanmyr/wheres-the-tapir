@@ -27,9 +27,9 @@ put "/quiz/:quiz/select/:door" do |quiz, door|
   quiz.remove_door(door).to_s
 end
 
-post "/quiz/*/*" do |quiz, stick_or_switch|
+put "/quiz/*/*" do |quiz, choice|
   quiz = Quiz.quizzes[quiz.to_i]
-  quiz.choose(stick_or_switch)
+  quiz.choose(choice)
   status = quiz.status
   Stats.get(status)
   status.to_json
