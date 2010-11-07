@@ -11,10 +11,6 @@ $(function() {
     $('#info-text').text(text);
   }
 
-  $.getJSON('/stats', function(data) {
-    updateStats(data);
-  });
-
   $('#start').click(function(e) {
     e.preventDefault();
     info("New quiz started");
@@ -132,6 +128,12 @@ $(function() {
     $('#start').removeAttr('disabled');
     $('#stick-switch button').attr('disabled', 'disabled');
   }
+
+  $.getJSON('/stats', function(data) {
+    updateStats(data);
+    resetButtons();
+  });
+
 
 
 });
