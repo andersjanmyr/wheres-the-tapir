@@ -14,7 +14,7 @@ end
 enable :run
 
 get "/" do
-  redirect 'index.html'
+  redirect '/index.html'
 end
 
 post "/quiz" do
