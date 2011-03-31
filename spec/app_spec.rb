@@ -15,14 +15,22 @@ describe 'Wheres the Tapir' do
     last_response.should be_ok
     last_request.env['PATH_INFO'].should == '/index.html'
   end
-  
+
   describe "post /quiz" do
-    
-    it "should return 1, 2 or 3" do
+    before :all do
       post '/quiz'
+
+    end
+    it 'should be ok' do
       last_response.should be_ok
-      %w(1 2 3).should include(last_response.body)
-    end    
+    end
+
+    it "should return an id for the quiz" do
+      last_response.should match(/\d+/)
+    end
+  end
+
+  describe 'put /quiz/:quiz/select/:door' do
   end
 
 end
