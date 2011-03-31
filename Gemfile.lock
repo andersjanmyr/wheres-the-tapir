@@ -1,27 +1,38 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    backports (1.18.2)
-    configuration (1.1.0)
-    heroku (1.12.1)
-      json_pure (>= 1.2.0, < 1.5.0)
+    activesupport (3.0.5)
+    backports (2.0.3)
+    configuration (1.2.0)
+    diff-lcs (1.1.2)
+    heroku (1.19.1)
+      activesupport (>= 2.1.0)
       launchy (~> 0.3.2)
-      rest-client (>= 1.4.0, < 1.7.0)
-    json (1.4.6)
-    json_pure (1.4.6)
+      rest-client (< 1.7.0, >= 1.4.0)
+    json (1.5.1)
     launchy (0.3.7)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
     mime-types (1.16)
     monkey-lib (0.5.4)
       backports
-    rack (1.2.1)
+    rack (1.2.2)
+    rack-test (0.5.7)
+      rack (>= 1.0)
     rake (0.8.7)
     rest-client (1.6.1)
       mime-types (>= 1.16)
-    sinatra (1.1.0)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
+    sinatra (1.2.1)
       rack (~> 1.1)
-      tilt (~> 1.1)
+      tilt (< 2.0, >= 1.2.2)
     sinatra-advanced-routes (0.5.1)
       monkey-lib (~> 0.5.0)
       sinatra (~> 1.0)
@@ -32,13 +43,16 @@ GEM
     sinatra-sugar (0.5.0)
       monkey-lib (~> 0.5.0)
       sinatra (~> 1.0)
-    tilt (1.1)
+    tilt (1.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  backports
   heroku
   json
+  rack-test
+  rspec
   sinatra
   sinatra-reloader
