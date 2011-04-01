@@ -16,7 +16,6 @@ class Quiz
     doors.delete(@answer_one)
     doors.delete(@correct_door)
     @removed_door = doors[rand(doors.length + 1) - 1]
-    p self
     @removed_door
   end
 

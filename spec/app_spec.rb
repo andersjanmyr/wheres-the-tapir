@@ -19,18 +19,27 @@ describe 'Wheres the Tapir' do
   describe "post /quiz" do
     before :all do
       post '/quiz'
-
     end
+
     it 'should be ok' do
       last_response.should be_ok
     end
 
     it "should return an id for the quiz" do
-      last_response.should match(/\d+/)
+      last_response.body.should match(/\d+/)
     end
   end
 
   describe 'put /quiz/:quiz/select/:door' do
+    before do
+      post '/quiz'
+      @id = last_response.body
+    end
+
+    it 'should return a door other than the one I selected' do
+      put "/quiz/#{@id}/select/1"
+      %(2 3).should include(last_response.body)
+    end
   end
 
 end
