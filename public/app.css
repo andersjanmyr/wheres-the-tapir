@@ -31,7 +31,7 @@ li {
   background-size: 100% 100%;
   float: left;
   width: 25%;
-  height: 35%;
+  min-height: 5em;
   text-align: center;
   list-style-type: none;
   padding-top: 40px;
@@ -82,7 +82,6 @@ li.hover {
   top: 2px;
   left: 2px;
   color: #111;
-  font-size: 64px;
 }
 
 #stick-switch {
