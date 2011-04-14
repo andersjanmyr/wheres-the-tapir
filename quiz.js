@@ -1,3 +1,5 @@
+var util = require('util');
+
 var quizzes = {};
 
 var aQuiz = {
@@ -10,10 +12,11 @@ var aQuiz = {
         console.log(this);
         this.firstChoice = firstChoice;
         var doors = [1,2,3];
-        doors.delete(this.firstChoice);
-        doors.delete(this.correct_door);
+        delete doors[this.firstChoice];
+        delete doors[this.correctDoor];
         this.removedDoor = doors[randomFromTo(1, doors.length) - 1];
-        return removedDoor;
+        util.debug(util.inspect(this));
+        return this.removedDoor;
     }
 
 }
@@ -24,15 +27,15 @@ function randomFromTo(from, to){
 
 var id = 1;
 function nextId() {
-    id++;
+    return id++;
 }
 
 exports.create = function() {
     var quiz = Object.create(aQuiz);
     quiz.id = nextId();
-    console.log(quiz.id);
     quiz.correctDoor = randomFromTo(1, 3);
-
+    util.debug(util.inspect(quiz));
+    quizzes[quiz.id] = quiz;
     return quiz;
 };
 

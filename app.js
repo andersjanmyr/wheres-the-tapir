@@ -1,3 +1,4 @@
+var util = require('util');
 var express = require('express');
 var quiz = require('./quiz');
 
@@ -31,13 +32,14 @@ app.post('/quiz', function(req, res) {
 
 
 app.put('/quiz/:quiz/select/:door', function(req, res) {
-  var quiz = quiz.find[req.params.quiz];
-  res.send(quiz.removeDoor(req.params.door).toString());
+  var theQuiz = quiz.find(req.params.quiz);
+  util.debug(util.inspect(theQuiz));
+  res.send(theQuiz.removeDoor(req.params.door).toString());
 });
 
-app.put('/quiz/*/*', function(req, req) {
-  //quiz = Quiz.quizzes[req.params.quiz.to_i]
-  //quiz.choose(rea.params.choice)
+app.put('/quiz/:quiz/:choice', function(req, req) {
+  var theQuiz = quiz.find(req.params.quiz);
+  theQuiz.choose(rea.params.choice)
   //status = quiz.status
   //Stats.get(status)
   //status.to_json
