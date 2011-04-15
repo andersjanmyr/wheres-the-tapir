@@ -32,14 +32,14 @@ app.post('/quiz', function(req, res) {
 
 
 app.put('/quiz/:quiz/select/:door', function(req, res) {
-  var theQuiz = quiz.find(req.params.quiz);
+  var theQuiz = quiz.find(parseInt(req.params.quiz));
   util.debug(util.inspect(theQuiz));
-  res.send(theQuiz.removeDoor(req.params.door).toString());
+  res.send(theQuiz.removeDoor(parseInt(req.params.door)).toString());
 });
 
 app.put('/quiz/:quiz/:choice', function(req, req) {
-  var theQuiz = quiz.find(req.params.quiz);
-  theQuiz.choose(rea.params.choice)
+  var theQuiz = quiz.find(parseInte(req.params.quiz));
+  theQuiz.choose(req.params.choice)
   //status = quiz.status
   //Stats.get(status)
   //status.to_json

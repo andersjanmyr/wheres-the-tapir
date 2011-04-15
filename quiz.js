@@ -9,11 +9,11 @@ var aQuiz = {
     removedDoor: null,
     finalChoice: null,
     removeDoor: function(firstChoice) {
-        console.log(this);
         this.firstChoice = firstChoice;
         var doors = [1,2,3];
-        delete doors[this.firstChoice];
-        delete doors[this.correctDoor];
+        removeElement(doors, this.firstChoice);
+        removeElement(doors, this.correctDoor);
+        util.debug(doors);
         this.removedDoor = doors[randomFromTo(1, doors.length) - 1];
         util.debug(util.inspect(this));
         return this.removedDoor;
@@ -21,6 +21,11 @@ var aQuiz = {
 
 }
 
+function removeElement(array, element) {
+    var i = array.indexOf(element);
+    if (i >= 0)
+        array.splice(i, 1);
+}
 function randomFromTo(from, to){
    return Math.floor(Math.random() * (to - from + 1) + from);
 }
