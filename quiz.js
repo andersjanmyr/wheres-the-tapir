@@ -17,9 +17,48 @@ var aQuiz = {
         this.removedDoor = doors[randomFromTo(1, doors.length) - 1];
         util.debug(util.inspect(this));
         return this.removedDoor;
+    },
+    choose: function(choice) {
+        this.finalChoice = choice;
+        stats.update(this.finalChoice, this.isCorrect());
+    },
+    isCorrect: function() {
+        return (this.finalChoice == 'stick') == (this.firstChoice == this.correctDoor);
+    },
+    status: function() {
+        return {
+          correct_door: this.correctDoor,
+          is_correct: this.isCorrect(),
+          choice: this.finalChoice
+        }
     }
-
 }
+
+var aStats = {
+  stickCount: 0,
+  stickCorrectCount: 0,
+  switchCount: 0,
+  switchCorrectCount: 0,
+
+  update: function(choice, correct) {
+    if (choice  == 'stick') {
+      this.stickCount += 1;
+      if (correct) this.stickCorrectCount += 1
+    } else {
+      this.switchCount += 1;
+      if (correct) this.switchCorrectCount += 1;
+    }
+  },
+
+  get: function(hash) {
+      if (!hash) hash = {};
+      hash['stick'] = [this.stickCorrectCount, this.stickCount];
+      hash['switch'] = [this.switchCorrectCount, this.switchCount];
+      return hash;
+  }
+}
+
+var stats = Object.create(aStats);
 
 function removeElement(array, element) {
     var i = array.indexOf(element);
@@ -48,3 +87,5 @@ exports.find = function(id) {
     var quiz = quizzes[id];
     return quiz;
 }
+
+exports.stats = stats;

@@ -33,18 +33,18 @@ app.post('/quiz', function(req, res) {
 
 app.put('/quiz/:quiz/select/:door', function(req, res) {
   var theQuiz = quiz.find(parseInt(req.params.quiz));
-  util.debug(util.inspect(theQuiz));
   res.send(theQuiz.removeDoor(parseInt(req.params.door)).toString());
 });
 
-app.put('/quiz/:quiz/:choice', function(req, req) {
-  var theQuiz = quiz.find(parseInte(req.params.quiz));
-  theQuiz.choose(req.params.choice)
-  //status = quiz.status
-  //Stats.get(status)
-  //status.to_json
+app.put('/quiz/:quiz/:choice', function(req, res) {
+  var theQuiz = quiz.find(parseInt(req.params.quiz));
+  theQuiz.choose(req.params.choice);
+  var status = theQuiz.status();
+  quiz.stats.get(status);
+  util.debug(util.inspect(status));
+  return res.send(status);
 });
 
-app.get('/stats', function(req, req) {
-  //Stats.get.to_json
+app.get('/stats', function(req, res) {
+  return res.send(quiz.stats.get());
 });
